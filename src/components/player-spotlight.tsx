@@ -1,6 +1,9 @@
 import type { PlayerEntry } from "@/data/players";
+import { getTeam } from "@/data/teams";
 import { CategoryBadge } from "@/components/category-badge";
+import { StatusChip } from "@/components/auction/status-chip";
 import { PlayerImage } from "@/components/player-image";
+import { formatPoints, type PlayerResult } from "@/lib/auction";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,11 +13,19 @@ import { cn } from "@/lib/utils";
 export function PlayerSpotlight({
   player,
   className,
+  result,
 }: {
   player: PlayerEntry;
   /** Enter/exit animation class, supplied by the search page. */
   className?: string;
+  /**
+   * Auction outcome. Only the gated screens pass this — the public search
+   * leaves it undefined and renders exactly as it always has.
+   */
+  result?: PlayerResult | null;
 }) {
+  const soldTeam = result?.status === "sold" ? getTeam(result.teamId) : undefined;
+
   return (
     <article
       className={cn(
@@ -32,10 +43,11 @@ export function PlayerSpotlight({
             sizes="(max-width: 640px) 100vw, 260px"
             priority
           />
+          <StatusChip result={result ?? null} className="absolute top-3 right-3 z-10" />
         </div>
 
         <div className="flex flex-col justify-center gap-4 p-5 sm:p-7">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-xl bg-amber-400 px-3 py-1.5 text-2xl leading-none font-black text-slate-950 tabular-nums">
               #{player.number}
             </span>
@@ -51,13 +63,26 @@ export function PlayerSpotlight({
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3">
-            <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
-              Base Price
-            </p>
-            <p className="text-3xl font-black text-amber-300 tabular-nums sm:text-4xl">
-              {player.basePrice}
-            </p>
+          <div className="flex flex-wrap gap-3">
+            <div className="min-w-32 flex-1 rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3">
+              <p className="text-xs font-semibold tracking-widest text-slate-400 uppercase">
+                Base Price
+              </p>
+              <p className="text-3xl font-black text-amber-300 tabular-nums sm:text-4xl">
+                {player.basePrice}
+              </p>
+            </div>
+
+            {soldTeam && result?.status === "sold" && (
+              <div className="min-w-32 flex-1 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3">
+                <p className="truncate text-xs font-semibold tracking-widest text-emerald-300/80 uppercase">
+                  {soldTeam.name}
+                </p>
+                <p className="text-3xl font-black text-emerald-300 tabular-nums sm:text-4xl">
+                  {formatPoints(result.price)}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

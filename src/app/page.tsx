@@ -16,7 +16,7 @@ export default function HomePage() {
           <span className="block text-amber-400">Championship</span>
         </h1>
         <p className="mt-3 text-base text-slate-400">
-          {totalPlayers} players in the pool. Pick a lane.
+          {totalPlayers} players for auction.
         </p>
 
         <div className="mt-10 flex flex-col gap-4">
