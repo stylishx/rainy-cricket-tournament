@@ -166,9 +166,9 @@ export const players: Record<number, Player> = {
     basePrice: "300",
   },
   21: {
-    name: "Nakka",
-    role: "Batsman",
-    category: "Batsman",
+    name: "Omkar Desai",
+    role: "All-Rounder",
+    category: "All-Rounder",
     imageSrc: "/players/player21.jpeg",
     basePrice: "300",
   },
