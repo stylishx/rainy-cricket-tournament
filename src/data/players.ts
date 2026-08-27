@@ -509,9 +509,9 @@ export const players: Record<number, Player> = {
     basePrice: "300",
   },
   70: {
-    name: "Ayaan Voda",
-    role: "Batsman",
-    category: "Batsman",
+    name: "Dinesh Bhosle",
+    role: "Bowler",
+    category: "Bowler",
     imageSrc: "/players/player70.jpeg",
     basePrice: "300",
   },
@@ -590,6 +590,13 @@ export const players: Record<number, Player> = {
     role: "All-Rounder",
     category: "All-Rounder",
     imageSrc: "/players/player81.jpeg",
+    basePrice: "300",
+  },
+  82: {
+    name: "Ayaan Voda",
+    role: "Batsman",
+    category: "Batsman",
+    imageSrc: "/players/player82.jpeg",
     basePrice: "300",
   },
 };
