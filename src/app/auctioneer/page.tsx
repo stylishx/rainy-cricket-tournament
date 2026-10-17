@@ -9,6 +9,7 @@ import { TeamRail } from "@/components/auction/team-rail";
 import { PlayerSpotlight } from "@/components/player-spotlight";
 import { getPlayer, parsePlayerNumber, playerList } from "@/data/players";
 import { getTeam } from "@/data/teams";
+import { TOURNAMENT_TITLE } from "@/data/tournament";
 import {
   formatPoints,
   lastAction,
@@ -62,6 +63,9 @@ export default function AuctioneerPage() {
               <Gavel className="size-5 text-amber-400" aria-hidden />
             </span>
             <div>
+              <p className="text-[10px] font-bold tracking-widest text-amber-400/80 uppercase">
+                {TOURNAMENT_TITLE}
+              </p>
               <h1 className="text-xl font-black tracking-tight text-white sm:text-2xl">
                 Auction Console
               </h1>

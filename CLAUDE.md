@@ -32,7 +32,7 @@ The public `/search` and `/book` must keep working exactly as they do for anyone
 
 ## Auction State & Access
 - **No database.** Auction results live in `localStorage` under `rainy-auction-v1`, managed by `src/lib/auction.ts` via `useSyncExternalStore`. Never add a server-side data store without being asked.
-- Rules live in `src/data/teams.ts`: 8 teams, `TEAM_PURSE` 10000, `SQUAD_SIZE` 10, `BASE_PRICE` 300. Read these constants — do not hardcode the numbers.
+- **Single config file: `src/data/tournament.ts`** — tournament name/year/host, `TEAM_PURSE`, `SQUAD_SIZE`, `BASE_PRICE` and the `teams` array. It is the only file edited to change the format. `src/data/teams.ts` re-exports those and holds what is *derived* (`TEAM_COUNT`, `totalSlots`, `MIN_BID`, `MAX_OPENING_BID`, `MIN_SQUAD_COST`) plus `TEAM_TONES` and the lookup helpers. Always read these constants — never hardcode a count or a price, and never write a team count into UI text.
 - Every bid must go through `saleError()` so the purse and squad rules cannot drift between screens. Selling always happens in `ManagePanel`.
 - Access codes and the cookie secret come from env (`AUCTIONEER_CODE`, `ADMIN_CODE`, `AUCTION_SECRET`) — see `.env.example`. `src/lib/auth.ts` must stay Web-Crypto-only and must never be imported by a client component, or the codes end up in the browser bundle.
 - Next 16 uses the `proxy` file convention, not `middleware`.

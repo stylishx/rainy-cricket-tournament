@@ -17,7 +17,7 @@ import {
 } from "@/lib/auction";
 import { cn } from "@/lib/utils";
 
-const BUMPS = [100, 200, 500];
+const BUMPS = [50, 100, 200, 500];
 
 /**
  * The one place a player is sold, passed in or put back. The console, the
@@ -138,7 +138,12 @@ export function ManagePanel({
           <p className="mt-4 mb-2 text-xs font-semibold tracking-widest text-slate-400 uppercase">
             Sell to
           </p>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {/* auto-fit, so the grid reflows itself for any number of teams —
+              6, 8 or 10 all lay out evenly without touching this file. */}
+          <div
+            className="grid gap-2"
+            style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}
+          >
             {summary.teams.map((entry) => {
               const tone = TEAM_TONES[entry.team.tone];
               const error = saleError(entry, price);

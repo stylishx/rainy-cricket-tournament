@@ -1,46 +1,57 @@
 /**
- * Auction rules and the eight team slots.
+ * Team presentation and the figures derived from the auction rules.
  *
- * Everything is points — no currency, no database. These four numbers are the
- * single source of truth for every purse calculation in the app, so changing
- * the format or the squad size only ever needs an edit here.
- *
- * To rename a team, edit its `name` / `short` below. Nothing else in the code
- * references the labels.
+ * DO NOT EDIT THE NUMBERS OR THE TEAM LIST HERE — they live in
+ * `src/data/tournament.ts`. This file re-exports them so that every existing
+ * import keeps working, and adds the values that are *calculated* from them.
+ * Change the format in one place and these follow automatically.
  */
 
-export const TEAM_PURSE = 10_000;
-export const SQUAD_SIZE = 10;
-export const BASE_PRICE = 300;
+import {
+  BASE_PRICE,
+  SQUAD_SIZE,
+  TEAM_PURSE,
+  teams,
+  type Team,
+  type TeamTone,
+} from "@/data/tournament";
 
-export type TeamTone =
-  | "amber"
-  | "sky"
-  | "emerald"
-  | "violet"
-  | "rose"
-  | "orange"
-  | "teal"
-  | "fuchsia";
-
-export type Team = {
-  id: string;
-  name: string;
-  /** 2–3 character label for tight spaces. */
-  short: string;
-  tone: TeamTone;
+export {
+  BASE_PRICE,
+  SQUAD_SIZE,
+  TEAM_PURSE,
+  teams,
+  type Team,
+  type TeamTone,
 };
 
-export const teams: Team[] = [
-  { id: "t1", name: "MM WARRIORS", short: "MW", tone: "amber" },
-  { id: "t2", name: "RAJESH 11", short: "R11", tone: "sky" },
-  { id: "t3", name: "HARDIK BLASTER", short: "HB", tone: "emerald" },
-  { id: "t4", name: "AAROHI 11", short: "A11", tone: "violet" },
-  { id: "t5", name: "MAMA SURVE 11", short: "MS", tone: "rose" },
-  { id: "t6", name: "VISHAL 11", short: "V11", tone: "orange" },
-  { id: "t7", name: "KUMAR & BHAIJAAN 11", short: "KB", tone: "teal" },
-  { id: "t8", name: "ROYAL DEFENDERS", short: "RD", tone: "fuchsia" },
-];
+/* -------------------------------------------------------------------------- */
+/* Derived figures — never typed by hand                                      */
+/* -------------------------------------------------------------------------- */
+
+/** How many teams are bidding. */
+export const TEAM_COUNT = teams.length;
+
+/** Total seats across the whole auction, e.g. 6 teams × 12 players = 72. */
+export const totalSlots = TEAM_COUNT * SQUAD_SIZE;
+
+/** The least a team can pay for a player. */
+export const MIN_BID = BASE_PRICE;
+
+/**
+ * The most a team can bid on its very first player: spend everything except
+ * the base price it must keep back for each remaining empty slot. Teams see
+ * their own live ceiling as `maxBid` in `summarize()`; this is the opening
+ * figure for the whole auction.
+ */
+export const MAX_OPENING_BID = TEAM_PURSE - (SQUAD_SIZE - 1) * BASE_PRICE;
+
+/** Points a team must hold back to fill a full squad at base price. */
+export const MIN_SQUAD_COST = SQUAD_SIZE * BASE_PRICE;
+
+/* -------------------------------------------------------------------------- */
+/* Tones                                                                      */
+/* -------------------------------------------------------------------------- */
 
 /**
  * Static class strings. Tailwind scans source text, so an interpolated
@@ -109,6 +120,3 @@ export function getTeam(id: string): Team | undefined {
 export function teamLabel(id: string): string {
   return byId.get(id)?.name ?? "Unknown team";
 }
-
-/** Total seats across the whole auction: 8 × 10 = 80. */
-export const totalSlots = teams.length * SQUAD_SIZE;

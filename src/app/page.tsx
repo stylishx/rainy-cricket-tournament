@@ -2,6 +2,11 @@ import Link from "next/link";
 import { LayoutGrid, Search, Trophy } from "lucide-react";
 
 import { totalPlayers } from "@/data/players";
+import {
+  TOURNAMENT_BYLINE,
+  TOURNAMENT_NAME,
+  TOURNAMENT_YEAR,
+} from "@/data/tournament";
 
 export default function HomePage() {
   return (
@@ -12,10 +17,13 @@ export default function HomePage() {
         </div>
 
         <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">
-          Rainy Cricket
-          <span className="block text-amber-400">Championship</span>
+          {TOURNAMENT_NAME}
+          <span className="block text-amber-400">{TOURNAMENT_YEAR}</span>
         </h1>
-        <p className="mt-3 text-base text-slate-400">
+        <p className="mt-3 text-sm font-bold tracking-wide text-amber-400/90">
+          {TOURNAMENT_BYLINE}
+        </p>
+        <p className="mt-1 text-base text-slate-400">
           {totalPlayers} players for auction.
         </p>
 

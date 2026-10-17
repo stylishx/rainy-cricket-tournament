@@ -6,7 +6,16 @@ import { TriangleAlert } from "lucide-react";
 import { AdminNav } from "@/components/auction/admin-nav";
 import { BackupTools } from "@/components/auction/backup-tools";
 import { playerList, totalPlayers } from "@/data/players";
-import { SQUAD_SIZE, TEAM_PURSE, TEAM_TONES, totalSlots } from "@/data/teams";
+import {
+  MAX_OPENING_BID,
+  MIN_BID,
+  SQUAD_SIZE,
+  TEAM_COUNT,
+  TEAM_PURSE,
+  TEAM_TONES,
+  totalSlots,
+} from "@/data/teams";
+import { TOURNAMENT_TITLE } from "@/data/tournament";
 import { formatPoints, summarize, useAuction } from "@/lib/auction";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +38,28 @@ export default function AdminPage() {
         <h1 className="mt-5 text-2xl font-black tracking-tight text-white sm:text-3xl">
           Auction Overview
         </h1>
+        <p className="mt-1 text-xs font-semibold tracking-wide text-slate-500">
+          {TOURNAMENT_TITLE}
+        </p>
+
+        {/* The live rules, read straight from the config — a quick sanity
+            check that the format on screen is the format everyone agreed. */}
+        <p className="mt-3 text-xs text-slate-400">
+          <span className="font-bold text-slate-300">{TEAM_COUNT} teams</span> ·{" "}
+          <span className="font-bold text-slate-300">{SQUAD_SIZE} players</span> each ·
+          purse{" "}
+          <span className="font-bold text-slate-300 tabular-nums">
+            {formatPoints(TEAM_PURSE)}
+          </span>{" "}
+          · bid{" "}
+          <span className="font-bold text-slate-300 tabular-nums">
+            {formatPoints(MIN_BID)}
+          </span>{" "}
+          to{" "}
+          <span className="font-bold text-slate-300 tabular-nums">
+            {formatPoints(MAX_OPENING_BID)}
+          </span>
+        </p>
 
         {/* Squad arithmetic is worth stating plainly rather than discovering
             at the end of the night. */}
@@ -36,7 +67,7 @@ export default function AdminPage() {
           <p className="mt-3 flex items-start gap-2 rounded-xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
             <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
             <span>
-              {totalPlayers} players for {totalSlots} seats (8 × {SQUAD_SIZE}).{" "}
+              {totalPlayers} players for {totalSlots} seats ({TEAM_COUNT} × {SQUAD_SIZE}).{" "}
               {totalPlayers - totalSlots} player
               {totalPlayers - totalSlots === 1 ? "" : "s"} cannot be placed if every
               squad fills up.

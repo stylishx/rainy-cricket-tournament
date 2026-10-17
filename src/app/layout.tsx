@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { TOURNAMENT_BYLINE, TOURNAMENT_TITLE } from "@/data/tournament";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -16,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rainy Cricket Auction",
-  description: "Live auction player search and strategic player book.",
+  title: `${TOURNAMENT_TITLE} — Auction`,
+  description: `${TOURNAMENT_TITLE} ${TOURNAMENT_BYLINE}. Live auction player search and strategic player book.`,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
